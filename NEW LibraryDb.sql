@@ -1,0 +1,83 @@
+
+--1
+SELECT B.BookID, B.Title, BC.BranchID, BC.NoOfCopies, LB.BranchID, LB.BranchName 
+FROM BOOK AS B INNER JOIN
+BOOK_COPIES AS BC 
+ON B.BookID = BC.BookID
+INNER JOIN LIBRARY_BRANCH AS LB
+ON BC.BranchID = LB.BranchID
+WHERE B.Title = 'The Lost Tribe'
+AND LB.BranchName = 'Sharpstown'
+
+
+
+--2
+SELECT B.Title, BC.NoOfCopies, LB.BranchName 
+FROM BOOK AS B INNER JOIN
+BOOK_COPIES AS BC 
+ON B.BookID = BC.BookID
+INNER JOIN LIBRARY_BRANCH AS LB
+ON BC.BranchID = LB.BranchID
+WHERE B.Title = 'The Lost Tribe'
+
+
+
+
+--3
+SELECT BO.CardNo, BO.Name, BL.DueDate, BL.DateOut 
+FROM BORROWER AS BO LEFT OUTER JOIN
+BOOK_LOANS AS BL
+ON BO.CardNo = BL.CardNo
+WHERE BL.DueDate IS NULL
+
+
+
+
+--4
+SELECT LB.BranchName, BL.DueDate, BO.Name, BO.[Address], B.Title
+FROM LIBRARY_BRANCH AS LB INNER JOIN
+BOOK_LOANS AS BL
+ON LB.BranchID = BL.BranchID
+INNER JOIN BORROWER AS BO
+ON BL.CardNo = BO.CardNo
+INNER JOIN BOOK AS B
+ON BL.BookID = B.BookID
+WHERE DueDate = '3/3/17'
+
+
+
+
+--5
+SELECT COUNT (BranchName), BranchName
+FROM BOOK_LOANS AS BL INNER JOIN
+LIBRARY_BRANCH AS LB
+ON BL.BranchID = LB.BranchID
+GROUP BY LB.BranchName
+
+
+
+
+--6
+SELECT BO.CardNo, BO.Name, BO.[Address], BC.NoOfCopies
+FROM BORROWER AS BO INNER JOIN
+BOOK_LOANS AS BL
+ON BO.CardNo = BL.CardNo
+INNER JOIN BOOK_COPIES AS BC
+ON BC.BranchID = BL.BranchID
+WHERE BO.CardNo < 1003
+
+
+
+
+--7
+SELECT B.Title, BC.NoOfCopies, BA.AuthorName, LB.BranchName
+FROM BOOK AS B INNER JOIN
+BOOK_COPIES AS BC
+ON BC.BookID = BC.BookID
+INNER JOIN BOOK_AUTHORS AS BA
+ON B.BookID = BA. BookID
+INNER JOIN LIBRARY_BRANCH AS LB
+ON BC.BranchID = LB.BranchID
+WHERE BranchName = 'Central'
+AND AuthorName IS NOT NULL
+
